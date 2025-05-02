@@ -46,10 +46,10 @@ in
 
     # === CPU-specific configurations ===
     # For AMD CPUs
-    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd
+    inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd
 
     # For Intel CPUs
-    inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel
+    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel
 
     # === Other common modules ===
     inputs.hydenix.inputs.nixos-hardware.nixosModules.common-pc
@@ -64,7 +64,7 @@ in
     };
 
     #! EDIT THIS USER (must match users defined below)
-    users."hydenix" =
+    users."pinya" =
       { ... }:
       {
         imports = [
@@ -81,9 +81,9 @@ in
     enable = true; # Enable the Hydenix module
 
     #! EDIT THESE VALUES
-    hostname = "hydenix"; # Change to your preferred hostname
-    timezone = "America/Vancouver"; # Change to your timezone
-    locale = "en_CA.UTF-8"; # Change to your preferred locale
+    hostname = "PinOS"; # Change to your preferred hostname
+    timezone = "Europe/Moscow"; # Change to your timezone
+    locale = "ru_RU.UTF-8"; # Change to your preferred locale
 
     /*
       Optionally edit the below values, or leave to use hydenix defaults
@@ -110,7 +110,7 @@ in
   };
 
   #! EDIT THESE VALUES (must match users defined above)
-  users.users.hydenix = {
+  users.users.pinya = {
     isNormalUser = true; # Regular user account
     initialPassword = "hydenix"; # Default password (CHANGE THIS after first login with passwd)
     extraGroups = [
