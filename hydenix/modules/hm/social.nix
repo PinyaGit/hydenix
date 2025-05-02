@@ -19,7 +19,7 @@ in
     discord = {
       enable = lib.mkOption {
         type = lib.types.bool;
-        default = true;
+        default = false;
         description = "Enable discord module";
       };
     };
@@ -27,7 +27,7 @@ in
     webcord = {
       enable = lib.mkOption {
         type = lib.types.bool;
-        default = true;
+        default = false;
         description = "Enable webcord module";
       };
     };
