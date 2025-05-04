@@ -37,22 +37,6 @@ in
       Most common drivers are below, but you can see more options here: https://github.com/NixOS/nixos-hardware
     */
 
-  # NVIDIA Start
-hardware = {
-    graphics.enable = true;
-
-    nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = false;
-      powerManagement.finegrained = false;
-      open = false;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
-  };
-
-  services.xserver.videoDrivers = [ "nvidia" ];
-};
   # NVIDIA END
 
     #! EDIT THIS SECTION
