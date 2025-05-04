@@ -37,8 +37,6 @@ in
       Most common drivers are below, but you can see more options here: https://github.com/NixOS/nixos-hardware
     */
 
-  # NVIDIA END
-
     #! EDIT THIS SECTION
     # For NVIDIA setups
     # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia
@@ -48,10 +46,10 @@ in
 
     # === CPU-specific configurations ===
     # For AMD CPUs
-    inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd
+    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd
 
     # For Intel CPUs
-    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel
+    inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel
 
     # === Other common modules ===
     inputs.hydenix.inputs.nixos-hardware.nixosModules.common-pc
@@ -66,7 +64,7 @@ in
     };
 
     #! EDIT THIS USER (must match users defined below)
-    users."pinya" =
+    users."hydenix" =
       { ... }:
       {
         imports = [
@@ -112,7 +110,7 @@ in
   };
 
   #! EDIT THESE VALUES (must match users defined above)
-  users.users.pinya = {
+  users.users.hydenix = {
     isNormalUser = true; # Regular user account
     initialPassword = "hydenix"; # Default password (CHANGE THIS after first login with passwd)
     extraGroups = [
