@@ -38,33 +38,21 @@ in
     */
 
   # NVIDIA Start
-  hardware = {
-    # Enable OpenGL
+hardware = {
     graphics.enable = true;
 
     nvidia = {
-      # Modesetting is required
       modesetting.enable = true;
-
-      # Power management
-      powerManagement = {
-        enable = false;
-        finegrained = false;
-      };
-
-      # Open-source kernel module (nouveau alternative)
+      powerManagement.enable = false;
+      powerManagement.finegrained = false;
       open = false;
-
-      # Enable nvidia-settings GUI
       nvidiaSettings = true;
-
-      # Driver version
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };
 
-  # Load NVIDIA driver for Xorg/Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
+};
   # NVIDIA END
 
     #! EDIT THIS SECTION
