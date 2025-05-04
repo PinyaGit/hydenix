@@ -83,7 +83,7 @@ in
     enable = true; # Enable the Hydenix module
 
     #! EDIT THESE VALUES
-    hostname = "PinOS"; # Change to your preferred hostname
+    hostname = "hydenix"; # Change to your preferred hostname
     timezone = "Europe/Moscow"; # Change to your timezone
     locale = "ru_RU.UTF-8"; # Change to your preferred locale
 
