@@ -10,6 +10,9 @@
     - [How do I upgrade Hydenix?](#how-do-i-upgrade-hydenix)
     - [When should I upgrade?](#when-should-i-upgrade)
     - [How do I fix (Nix error / system error / bug / etc)?](#how-do-i-fix-nix-error--system-error--bug--etc)
+    - [Common errors](#common-errors)
+      - [`error: hash mismatch in fixed-output derivation`](#error-hash-mismatch-in-fixed-output-derivation)
+      - [`Existing file '...' is in the way of '...'`](#existing-file--is-in-the-way-of-)
     - [What are the module options?](#what-are-the-module-options)
     - [What if I want to customize hydenix?](#what-if-i-want-to-customize-hydenix)
     - [What are some example configurations?](#what-are-some-example-configurations)
@@ -118,6 +121,96 @@ graph TD
 Please see the [troubleshooting](./troubleshooting.md) guide for more information on how to diagnose and fix issues.
 Or create an issue in the [Hydenix GitHub repository](https://github.com/richen604/hydenix/issues).
 
+### Common errors
+
+#### `error: hash mismatch in fixed-output derivation`
+
+This error occurs when Nix expects a specific hash for a downloaded file, but the actual file has a different hash due to upstream changes.
+
+These usually happen with themes as they are updated frequently.
+
+Example:
+
+```bash
+error: hash mismatch in fixed-output derivation '/nix/store/2s2n054di1wg8d3sw50wqhs10yg8svj0-Code-Garden.drv':
+         specified: sha256-ZAmxhz7MK24htAcPdnNMZF/K7Cw7vru80xZn+7yJgXQ=
+            got:    sha256-HHC15pPHJ+ylQ56yYysEoKjKYUAoye2WHmt4Q2vyffk=
+```
+
+**Solution: Override the package in configuration.nix**
+
+If I haven't updated this in the repo yet, add this overlay to your existing overlays in `configuration.nix` to fix the error:
+
+```nix
+overlays = [
+  inputs.hydenix.lib.overlays
+  # Fix hash mismatch errors for Catppuccin Mocha
+  (final: prev: {
+    # Replace 'hydenix.themes."Catppuccin Mocha"' with the actual failing package, for theme names check https://github.com/richen604/hydenix/blob/main/hydenix/sources/themes/default.nix
+    hydenix.themes."Catppuccin Mocha" = prev.hydenix.themes."Catppuccin Mocha".overrideAttrs (oldAttrs: {
+      src = prev.fetchFromGitHub {
+        # Use the hash from error message under "got:"
+        sha256 = "HHC15pPHJ+ylQ56yYysEoKjKYUAoye2WHmt4Q2vyffk=";
+      };
+    });
+  })
+  (final: prev: {
+    userPkgs = import inputs.nixpkgs {
+      config.allowUnfree = true;
+    };
+  })
+];
+```
+
+#### `Existing file '...' is in the way of '...'`
+
+This error occurs when home-manager tries to manage a file that already exists and wasn't created by home-manager.
+
+Example:
+
+```bash
+Existing file '/home/user/.config/kitty/kitty.conf' is in the way of '/nix/store/...-home-manager-files/.config/kitty/kitty.conf'
+```
+
+**Solution 1: Remove existing files (recommended)**
+
+Remove the conflicting files and let home-manager recreate them:
+
+```bash
+# Remove the specific file
+rm ~/.config/kitty/kitty.conf
+
+# Or remove entire config directory if needed (careful not to delete important files)
+rm -rf ~/.config/kitty/
+```
+
+**Solution 2: Backup existing files**
+
+If you want to preserve your existing configuration:
+
+```bash
+# Create backup
+mv ~/.config/kitty/kitty.conf ~/.config/kitty/kitty.conf.backup
+
+# Then rebuild to let home-manager create the new file
+sudo nixos-rebuild switch
+```
+
+**Solution 3: Force home-manager to backup automatically**
+
+Add this to your `configuration.nix` to automatically backup conflicting files:
+
+```nix
+{
+  home-manager.backupFileExtension = "backup";
+}
+```
+
+This will automatically rename existing files with a `.backup` extension when home-manager encounters conflicts, allowing the rebuild to proceed without manual intervention only once.
+
+> [!WARNING]
+> if there is a conflict again, home-manager will error for you to manually resolve it. I don't include this by default as automating backups may not be ideal for users and it does not really solve the issue with managing backups
+
 ### What are the module options?
 
 Below will be the default options for hydenix. the only required options are `hydenix.enable` and `hydenix.hm.enable`.
@@ -142,7 +235,7 @@ NixOS hydenix options:
     boot = {
       enable = true; # enable boot module
       useSystemdBoot = true; # disable for GRUB
-      grubTheme = pkgs.hydenix.grub-retroboot; # or pkgs.hydenix.grub-pochita
+      grubTheme = "Retroboot"; # or "Pochita"
       grubExtraConfig = ""; # additional GRUB configuration
       kernelPackages = pkgs.linuxPackages_zen; # default zen kernel
     };
@@ -152,7 +245,7 @@ NixOS hydenix options:
     nix.enable = true; # enable nix module
     sddm = {
       enable = true; # enable sddm module
-      theme = pkgs.hydenix.sddm-candy; # or pkgs.hydenix.sddm-corners
+      theme = "Candy" # or "Corners"
     };
     system.enable = true; # enable system module
   };
@@ -182,16 +275,10 @@ NixOS hydenix options:
         wallbash = true; # enable wallbash extension for vscode
       };
       vim.enable = true; # enable vim module
-      default = "vim"; # default text editor
+      default = "code"; # default text editor
     };
     fastfetch.enable = true; # fastfetch configuration
-    firefox = {
-      enable = true; # enable firefox module
-      useHydeConfig = false; # use hyde firefox configuration and extensions
-      useUserChrome = true; # if useHydeConfig is true, apply hyde userChrome CSS customizations
-      useUserJs = true; # if useHydeConfig is true, apply hyde user.js preferences
-      useExtensions = true; # if useHydeConfig is true, install hyde firefox extensions
-    };
+    firefox.enable = true; # enable firefox module
     gaming.enable = true; # enable gaming module
     git = {
       enable = true; # enable git module
@@ -199,7 +286,10 @@ NixOS hydenix options:
       email = null; # git user email eg "john.doe@example.com"
     };
     hyde.enable = true; # enable hyde module
-    hyprland.enable = true; # enable hyprland module
+    hyprland = {
+      enable = true; # enable hyprland module
+      extraConfig = ""; # extra hyprland config text
+    };
     lockscreen = {
       enable = true; # enable lockscreen module
       hyprlock = true; # enable hyprlock lockscreen
@@ -212,17 +302,22 @@ NixOS hydenix options:
       enable = true; # enable screenshots module
       grim.enable = true; # enable grim screenshot tool
       slurp.enable = true; # enable slurp region selection tool
-      satty.enable = true; # enable satty screenshot annotation tool
-      swappy.enable = false; # enable swappy screenshot editor
+      satty.enable = false; # enable satty screenshot annotation tool
+      swappy.enable = true; # enable swappy screenshot editor
     };
     wallpapers.enable = true; # enable wallpapers module
     shell = {
       enable = true; # enable shell module
-      zsh.enable = true; # enable zsh shell
-      configText = ""; # zsh config text
+      zsh = {
+        enable = true; # enable zsh shell
+        plugins = [ "sudo" ]; # zsh plugins
+        configText = ""; # zsh config text
+      };
       bash.enable = false; # enable bash shell
       fish.enable = false; # enable fish shell
-      pokego.enable = true; # enable Pokemon ASCII art scripts
+      pokego.enable = false; # enable Pokemon ASCII art scripts
+      p10k.enable = false; # enable p10k prompt
+      starship.enable = true; # enable starship prompt
     };
     social = {
       enable = true; # enable social module
@@ -244,7 +339,10 @@ NixOS hydenix options:
       active = "Catppuccin Mocha"; # active theme name
       themes = [ "Catppuccin Mocha" "Catppuccin Latte" ]; # default enabled themes, full list in https://github.com/richen604/hydenix/tree/main/hydenix/sources/themes
     };
-    waybar.enable = true; # enable waybar module
+    waybar = {
+      enable = true; # enable waybar module
+      userStyle = ""; # custom waybar user-style.css
+    };
     wlogout.enable = true; # enable wlogout module
     xdg.enable = true; # enable xdg module
   };

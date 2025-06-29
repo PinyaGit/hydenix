@@ -23,6 +23,18 @@ in
         description = "Enable waybar";
       };
     };
+
+    userStyle = lib.mkOption {
+      type = lib.types.lines;
+      default = "";
+      example = ''
+        /* Custom waybar styles */
+        window#waybar {
+          background-color: rgba(0, 0, 0, 0.8);
+        }
+      '';
+      description = "Custom CSS styles for waybar user-style.css";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -35,6 +47,7 @@ in
         (python3.withPackages (ps: with ps; [ pygobject3 ])) # python with pygobject3
         python-pyamdgpuinfo # AMD GPU information library
         lm_sensors # sensors information library
+        power-profiles-daemon # power profiles daemon
       ];
 
     home.file = {
@@ -42,166 +55,186 @@ in
       # Modules for waybar
       # Note: some of these may not work for NixOS
       # TODO: review waybar modules for nix compatibility
-      ".config/waybar/modules/backlight.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/backlight.jsonc";
+      ".config/waybar/modules" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules";
+        recursive = true;
       };
-      ".config/waybar/modules/battery.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/battery.jsonc";
+      ".config/waybar/layouts" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/layouts";
+        recursive = true;
       };
-      ".config/waybar/modules/bluetooth.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/bluetooth.jsonc";
+      ".config/waybar/menus" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/menus";
+        recursive = true;
       };
-      ".config/waybar/modules/cava.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/cava.jsonc";
+      ".config/waybar/styles" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/styles";
+        recursive = true;
       };
-      ".config/waybar/modules/cliphist.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/cliphist.jsonc";
+      ".config/waybar/includes/border-radius.css" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/includes/border-radius.css";
+        force = true;
+        mutable = true;
       };
-      ".config/waybar/modules/clock##alt.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/clock##alt.jsonc";
+      ".config/waybar/includes/global.css" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/includes/global.css";
+        force = true;
+        mutable = true;
       };
-      ".config/waybar/modules/clock.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/clock.jsonc";
-      };
-      ".config/waybar/modules/cpu.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/cpu.jsonc";
-      };
-      ".config/waybar/modules/cpuinfo.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/cpuinfo.jsonc";
-      };
-      ".config/waybar/modules/display.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/display.jsonc";
-      };
-      ".config/waybar/modules/github_hyde.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/github_hyde.jsonc";
-      };
-      ".config/waybar/modules/gpuinfo.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/gpuinfo.jsonc";
-      };
-      ".config/waybar/modules/hyprsunset.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/hyprsunset.jsonc";
-      };
-      ".config/waybar/modules/idle_inhibitor.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/idle_inhibitor.jsonc";
-      };
-
-      ".config/waybar/modules/language.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/language.jsonc";
-      };
-      ".config/waybar/modules/memory.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/memory.jsonc";
-      };
-      ".config/waybar/modules/mpris.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/mpris.jsonc";
-      };
-      ".config/waybar/modules/network.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/network.jsonc";
-      };
-      ".config/waybar/modules/notifications.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/notifications.jsonc";
-      };
-      ".config/waybar/modules/power.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/power.jsonc";
-      };
-      ".config/waybar/modules/privacy.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/privacy.jsonc";
-      };
-      ".config/waybar/modules/pulseaudio.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/pulseaudio.jsonc";
-      };
-      ".config/waybar/modules/sensorsinfo.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/sensorsinfo.jsonc";
-      };
-      ".config/waybar/modules/spotify.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/spotify.jsonc";
-      };
-      ".config/waybar/modules/taskbar##custom.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/taskbar##custom.jsonc";
-      };
-      ".config/waybar/modules/taskbar##windows.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/taskbar##windows.jsonc";
-      };
-      ".config/waybar/modules/taskbar.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/taskbar.jsonc";
-      };
-      ".config/waybar/modules/theme.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/theme.jsonc";
-      };
-      ".config/waybar/modules/tray.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/tray.jsonc";
-      };
-      ".config/waybar/modules/updates.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/updates.jsonc";
-      };
-      ".config/waybar/modules/wbar.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/wbar.jsonc";
-      };
-      ".config/waybar/modules/weather.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/weather.jsonc";
-      };
-      ".config/waybar/modules/window.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/window.jsonc";
-      };
-      ".config/waybar/modules/workspaces##kanji.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/workspaces##kanji.jsonc";
-      };
-      ".config/waybar/modules/workspaces##roman.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/workspaces##roman.jsonc";
-      };
-      ".config/waybar/modules/workspaces.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/workspaces.jsonc";
-      };
-
-      # stateful files
-      # for some reason this won't pull from the repo
-      ".config/waybar/modules/keyboardhint.jsonc" = {
+      ".config/waybar/includes/includes.json" = {
         text = ''
-              "custom/keybindhint": {
-              "format": " ",
-              "tooltip-format": " Keybinds",
-              "rotate": ''${r_deg},
-              "on-click": "keybinds_hint.sh"
-          },
+          {
+            "include": [
+                "${config.xdg.configHome}/waybar/modules/backlight.jsonc",
+                "${config.xdg.configHome}/waybar/modules/battery.jsonc",
+                "${config.xdg.configHome}/waybar/modules/bluetooth.jsonc",
+                "${config.xdg.configHome}/waybar/modules/cava.jsonc",
+                "${config.xdg.configHome}/waybar/modules/cliphist.jsonc",
+                "${config.xdg.configHome}/waybar/modules/clock##alt.jsonc",
+                "${config.xdg.configHome}/waybar/modules/clock.jsonc",
+                "${config.xdg.configHome}/waybar/modules/cpu.jsonc",
+                "${config.xdg.configHome}/waybar/modules/cpuinfo.jsonc",
+                "${config.xdg.configHome}/waybar/modules/display.jsonc",
+                "${config.xdg.configHome}/waybar/modules/footer.jsonc",
+                "${config.xdg.configHome}/waybar/modules/github_hyde.jsonc",
+                "${config.xdg.configHome}/waybar/modules/github_hyprdots.jsonc",
+                "${config.xdg.configHome}/waybar/modules/gpuinfo.jsonc",
+                "${config.xdg.configHome}/waybar/modules/header.jsonc",
+                "${config.xdg.configHome}/waybar/modules/hyprsunset.jsonc",
+                "${config.xdg.configHome}/waybar/modules/idle_inhibitor.jsonc",
+                "${config.xdg.configHome}/waybar/modules/keybindhint.jsonc",
+                "${config.xdg.configHome}/waybar/modules/language.jsonc",
+                "${config.xdg.configHome}/waybar/modules/memory.jsonc",
+                "${config.xdg.configHome}/waybar/modules/mpris.jsonc",
+                "${config.xdg.configHome}/waybar/modules/network.jsonc",
+                "${config.xdg.configHome}/waybar/modules/notifications.jsonc",
+                "${config.xdg.configHome}/waybar/modules/power.jsonc",
+                "${config.xdg.configHome}/waybar/modules/privacy.jsonc",
+                "${config.xdg.configHome}/waybar/modules/pulseaudio#microphone.jsonc",
+                "${config.xdg.configHome}/waybar/modules/pulseaudio.jsonc",
+                "${config.xdg.configHome}/waybar/modules/sensorsinfo.jsonc",
+                "${config.xdg.configHome}/waybar/modules/spotify.jsonc",
+                "${config.xdg.configHome}/waybar/modules/taskbar##custom.jsonc",
+                "${config.xdg.configHome}/waybar/modules/taskbar##windows.jsonc",
+                "${config.xdg.configHome}/waybar/modules/taskbar.jsonc",
+                "${config.xdg.configHome}/waybar/modules/theme.jsonc",
+                "${config.xdg.configHome}/waybar/modules/tray.jsonc",
+                "${config.xdg.configHome}/waybar/modules/updates.jsonc",
+                "${config.xdg.configHome}/waybar/modules/wallchange.jsonc",
+                "${config.xdg.configHome}/waybar/modules/wbar.jsonc",
+                "${config.xdg.configHome}/waybar/modules/weather.jsonc",
+                "${config.xdg.configHome}/waybar/modules/window.jsonc",
+                "${config.xdg.configHome}/waybar/modules/workspaces##kanji.jsonc",
+                "${config.xdg.configHome}/waybar/modules/workspaces##roman.jsonc",
+                "${config.xdg.configHome}/waybar/modules/workspaces.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/wlr-taskbar#windows.json",
+                "${config.xdg.dataHome}/waybar/modules/wlr-taskbar.json",
+                "${config.xdg.dataHome}/waybar/modules/privacy.json",
+                "${config.xdg.dataHome}/waybar/modules/tray.json",
+                "${config.xdg.dataHome}/waybar/modules/custom-cava.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-clipboard.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-cliphist.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-cpuinfo.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-display.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-dunst.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-gamemode.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-github_hyde.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-gpuinfo#amd.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-gpuinfo#intel.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-gpuinfo#nvidia.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-gpuinfo.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-hyprsunset.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-keybindhint.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-power.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-powermenu.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-sensorsinfo.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-spotify.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-theme.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-updates.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-wallchange.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-wbar.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-weather.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/hyprland-language.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/hyprland-window.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/hyprland-workspaces.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-swaync.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/wlr-taskbar.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/wlr-taskbar#windows.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/clock.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/cpu.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/idle_inhibitor.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/memory.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/mpris.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/network.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/privacy.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/pulseaudio.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/pulseaudio#microphone.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/tray.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/power-profiles-daemon.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/image#hyde-menu.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/custom-hyde-menu.jsonc",
+                "${config.xdg.dataHome}/waybar/modules/network#bandwidth.jsonc"
+            ],
+            "wlr/taskbar#windows": {
+                "icon-size": 16.0,
+                "icon-size-multiplier": 1.6
+            },
+            "wlr/taskbar": {
+                "icon-size": 16.0,
+                "icon-size-multiplier": 1.6
+            },
+            "privacy": {
+                "icon-size": 10,
+                "icon-size-multiplier": 1
+            },
+            "tray": {
+                "icon-size": 16.0,
+                "icon-size-multiplier": 1.6
+            }
+          }
         '';
         force = true;
+        mutable = true;
       };
-      ".config/waybar/config.ctl" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/config.ctl";
+      ".config/waybar/user-style.css" = {
+        text = cfg.userStyle;
         force = true;
         mutable = true;
       };
-      ".config/waybar/modules/header.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/header.jsonc";
-        force = true;
-        mutable = true;
-      };
-      ".config/waybar/modules/footer.jsonc" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/footer.jsonc";
-        mutable = true;
-        force = true;
-      };
+      ".config/waybar/style.css" = {
+        text = ''
+          /*!  DO NOT EDIT THIS FILE */
+          /*
+          *     ░▒▒▒░░░▓▓           ___________
+          *   ░░▒▒▒░░░░░▓▓        //___________/
+          *  ░░▒▒▒░░░░░▓▓     _   _ _    _ _____
+          *  ░░▒▒░░░░░▓▓▓▓▓ | | | | |  | |  __/
+          *   ░▒▒░░░░▓▓   ▓▓ | |_| | |_/ /| |___
+          *    ░▒▒░░▓▓   ▓▓   |__  |____/ |____/
+          *      ░▒▓▓   ▓▓  //____/
+          */
 
-      ".config/waybar/modules/style.css" = {
-        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/modules/style.css";
+          /* Modified by Hyde */
+          /* Modify/add style in ~/.config/waybar/styles/ */
+          @import "${config.xdg.dataHome}/waybar/styles/defaults.css";
+
+          /* Imports wallbash colors */
+          @import "${config.xdg.cacheHome}/hyde/wallbash/gtk.css";
+
+          /* Colors and theme configuration is generated through the `theme.css` file */
+          @import "theme.css";
+
+          /* Users who want to override the current style add/edit 'user-style.css' */
+          @import "user-style.css";  
+        '';
         force = true;
         mutable = true;
       };
-      # ".config/waybar/config.jsonc" =   {
-      #   source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/config.jsonc";
-      #   force = true;
-      #   mutable = true;
-      # };
-      # ".config/waybar/style.css" =  {
-      #   source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/style.css";
-      #   force = true;
-      #   mutable = true;
-      # };
-      # ".config/waybar/theme.css" =   {
-      #   source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/theme.css";
-      #   force = true;
-      #   mutable = true;
-      # };
-
+      ".config/waybar/config.jsonc" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.config/waybar/config.jsonc";
+        force = true;
+        mutable = true;
+      };
     };
   };
 }

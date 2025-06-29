@@ -1,16 +1,43 @@
 
 # todo / roadmap
 
+## now / notes
+
+- [ ] finish demo-vm for video
+
+## next api update
+
+- [ ] hydenix nixOsModules to nixosModules
+
 ## priority
 
-- [ ] fix: boot module grub is not working?
-- [ ] feat: spicetify theme support with declarative flatpak
-- [ ] feat: add Code Garden theme
+- [ ] refactor hydevm to arch compatible then bump to repo
+
+- [ ] docs: better documented first edits
+  - [ ] add steps for what to edit first
+  - [ ] add more detailed driver
+
+- [ ] feat: demo-vm
+  - [ ] video
+   - [ ]  
+
+- [ ] feat: spicetify theme support? flatpak?
+
 - [ ] chore: review bug template
-- [ ] docs: better documented drivers in template flake, plus nvidia default settings
-- [ ] feat: hyprland via home-manager
+
+- [ ] feat: hyprland via home-manager only
   - support plugins
   - use hyprland flake package
+  - nixGL
+- [ ] binary cache
+- [ ] feat: experimental module exports #117
+
+## unorganized
+
+- [ ] BREAKING:make hydenix more extensible without losing the ability to upgrade hyde
+  - [ ] hyde CORE modules
+    - map a module hierachy, propose a revised api
+    - modules that are required for hyde must have assertions.
 
 ## iso builder
 
@@ -36,7 +63,6 @@
 ## hypridle
 
 - [ ] feat: hypridle module and options
-- [ ] feat: use dpms-off instead of hyprctl dispatch dpms off in hypridle
 
 ## hyprlock
 
@@ -44,8 +70,6 @@
 
 ## uncategorized
 
-- [ ] feat: is code the default EDITOR? change editors.nix
-   yes, code-oss though, not code
 - [ ] feat: cleanupOnDisable activation script and option
 
 ## CI
@@ -61,22 +85,24 @@
   - [ ] feat: Add zed theme support
   - [ ] feat: Add obsidian theme support
   - [ ] feat: Add terminal-emulators support
-  - [ ] feat: Add updated HyDE/code-wallbash nix support
 - [ ] feat: full nixos config & full home-manager config
 - [ ] feat: Set NIX-PATH to template flake location
 
 ## Non-NixOS
 
-https://github.com/jpikl/pm for non-nixos packages
+<https://github.com/jpikl/pm> for non-nixos packages
 specific scripts for each non-nixos distro options, ideally one script for all packages using pm
-nixGL wrapping for all prorgrams, well documented in the configuration as users will need to edit it. combine with any driver setup
+nixGL wrapping for all programs, well documented in the configuration as users will need to edit it. combine with any driver setup
 
 ## Hyde repo
 
-- [ ] hyde-shell reload requires display, unable to run in activation scripts
-- [ ] caffiene mode resets on hyde-shell reload
-- [ ] some yubikey touch detection for hyprlock and waybar <https://github.com/maximbaz/yubikey-touch-detector>
-
-- [ ] hyde themes should precache things, there is no reason each user should have to build cache
-This will heavily improve performance of first boot, as swwwallcache is not built
-This feature would be outside of hydenix, most likely a PR to both theme maintainers and hyde
+- [ ] theme makers should be able to precache walls before patching
+  - [ ] requires arch vm (w/ commit hash param and snapshot functionality)
+  - [ ] hyde-theme-starter to implement /lib with swwwallcache and wallbash
+    - whatever generates dcols and wallcaches
+  - [ ] hyde repo themepatcher implement reading for .cache in theme to cp cache and skip
+  - [ ] validation
+    - [ ] themepatcher should still generate on missing cache per wall
+  - [ ] PR's for all themes to bring cache
+  - [ ] hydenix implementation (just home.file mutable)
+  - [ ] FUTURE: wallbash should be a seperate lib

@@ -1,3 +1,136 @@
+# [4.5.0](https://github.com/richen604/hydenix/compare/v4.4.0...v4.5.0) (2025-06-27)
+
+
+### Features
+
+* bumped nixpkgs ([1a90289](https://github.com/richen604/hydenix/commit/1a9028973ebcefae2a7b50b11ba41027867d2a98))
+
+# [4.4.0](https://github.com/richen604/hydenix/compare/v4.3.0...v4.4.0) (2025-06-27)
+
+
+### Bug Fixes
+
+* bumped theme hash ([e92cb44](https://github.com/richen604/hydenix/commit/e92cb44493f5894b6cc8b852eb3abe1d29b10a93))
+
+
+### Features
+
+* waybar style option [#123](https://github.com/richen604/hydenix/issues/123) ([9cfc228](https://github.com/richen604/hydenix/commit/9cfc228e01d266ea11b5f9bbcb682c19a6f263e2))
+
+# [4.3.0](https://github.com/richen604/hydenix/compare/v4.2.0...v4.3.0) (2025-06-18)
+
+
+### Bug Fixes
+
+* missing waybar config.jsonc ([1f4a748](https://github.com/richen604/hydenix/commit/1f4a74829efd618d0251f51f845a1b70aeabb542))
+
+
+### Features
+
+* more visible home-manager errors ([cf2a212](https://github.com/richen604/hydenix/commit/cf2a212c19f84ae9187482dc7c3c4273c94d5932))
+
+# [4.2.0](https://github.com/richen604/hydenix/compare/v4.1.0...v4.2.0) (2025-06-18)
+
+
+### Bug Fixes
+
+* update theme hashes ([85ab117](https://github.com/richen604/hydenix/commit/85ab117e91818c469329f4be98fea6d793682c6f))
+
+
+### Features
+
+* good bluetooth default ([a719a48](https://github.com/richen604/hydenix/commit/a719a48761c0af9228da794a850c8a6de8017608))
+* updated hyde to master ([baf3f5e](https://github.com/richen604/hydenix/commit/baf3f5e3f3489d3d2d90af6fe5cb628af4b9643c))
+* updated nixpkgs ([f8f63f0](https://github.com/richen604/hydenix/commit/f8f63f0606423f6dd10df66de15057a937ebddeb))
+
+# [4.1.0](https://github.com/richen604/hydenix/compare/v4.0.2...v4.1.0) (2025-06-10)
+
+
+### Bug Fixes
+
+* invalid wallbash icons path ([8030aa4](https://github.com/richen604/hydenix/commit/8030aa4b70806162806d9b8aee77eefd889101d1))
+
+
+### Features
+
+* manual nixpkgs update ([15ab083](https://github.com/richen604/hydenix/commit/15ab083de3f72239ac042522617c4a231b1d6ecb))
+
+## [4.0.2](https://github.com/richen604/hydenix/compare/v4.0.1...v4.0.2) (2025-06-07)
+
+
+### Bug Fixes
+
+* dconf missing in settheme, fixes error in some rebuilds ([52777d2](https://github.com/richen604/hydenix/commit/52777d2e64c36e73fd2a8ea6e9439bc4a71bd771))
+* only one themeswitch call in settheme ([cd0dfde](https://github.com/richen604/hydenix/commit/cd0dfde6aa138fded3c92c8fa4a770785717dcd7))
+
+## [4.0.1](https://github.com/richen604/hydenix/compare/v4.0.0...v4.0.1) (2025-06-07)
+
+
+### Bug Fixes
+
+* bumped code garden hash [#115](https://github.com/richen604/hydenix/issues/115) ([a8d860f](https://github.com/richen604/hydenix/commit/a8d860f1631e1c3bb99a8a723d7f19c0fc637217))
+* removed onchange for waybar module ([08df345](https://github.com/richen604/hydenix/commit/08df34547e47d02aabe6f63f1bb26e63427fc135))
+
+# [4.0.0](https://github.com/richen604/hydenix/compare/v3.1.0...v4.0.0) (2025-06-05)
+
+
+### Bug Fixes
+
+* swappy default temporarily to fix screenshots ([ceebd67](https://github.com/richen604/hydenix/commit/ceebd671891bbe113580bcb5ea0d528bb00b5c33))
+* vscode default, used hm programs ([e14c90e](https://github.com/richen604/hydenix/commit/e14c90e03683babcc03888c55c9917449b057c6b))
+* wallbash mutable files, nix-ld for hydectl ([44554f9](https://github.com/richen604/hydenix/commit/44554f9b5ebc63e375867db3ebb94bd4cb8290f2))
+* zsh option changes ([33985f7](https://github.com/richen604/hydenix/commit/33985f7cfe6ce9fe5bf9d1d7c01d56fd8439fa94))
+
+
+### Features
+
+* add crimson-blue ([89b9db9](https://github.com/richen604/hydenix/commit/89b9db9a0e80d07c81d619a06f0d5b08b4b7ee3c))
+* add electra ([47ec46b](https://github.com/richen604/hydenix/commit/47ec46b4f4eb8f0455d5439b5e522b08df4fa8a2))
+* add grukai ([6fce198](https://github.com/richen604/hydenix/commit/6fce198dfdc1f266f5ce7eefb7ed1d27f85fb965))
+* added amethyst aura ([f7dbe59](https://github.com/richen604/hydenix/commit/f7dbe5941fa1b2944ba59833386a35195911ae2c))
+* added code garden ([506f194](https://github.com/richen604/hydenix/commit/506f19460f1d8f327c393da8229a96b79b19bc0a))
+* added codium flags ([fa950b3](https://github.com/richen604/hydenix/commit/fa950b3d73f82def3d3782a1afb4cc2d7562cc5d))
+* added hyprlock, shaders, workflows ([ee28ed0](https://github.com/richen604/hydenix/commit/ee28ed0e89abc1f04f323bc1f77bc7bd6b98ba1b))
+* added nightbrew ([fcd0314](https://github.com/richen604/hydenix/commit/fcd0314ff37d510c1d326bba5702ef40f395ea02))
+* added piece of mind and obsidian purple ([69725cc](https://github.com/richen604/hydenix/commit/69725cc68bfb62b40d743a873493096907542cf2))
+* added tundra, limefrenzy, ancientalien themes ([4c9b851](https://github.com/richen604/hydenix/commit/4c9b851dbae29a2bd9d6469f5fe712ec58774cd6))
+* fastfetch default on shell prompt ([8588042](https://github.com/richen604/hydenix/commit/85880426a40b5d11bd0a3e91c82576313efff8f9))
+* fish functions ([7ec79c8](https://github.com/richen604/hydenix/commit/7ec79c86426bbba24feff70f56d9e4cc472e0572))
+* hyde flake input, hyde-update script ([001aefa](https://github.com/richen604/hydenix/commit/001aefa5c73134e4cb773dbe26f9eb33088fbb50))
+* hyprland extraconfig ([240a48f](https://github.com/richen604/hydenix/commit/240a48f838933c171ce368028706484c6cf35c56))
+* init functional hydevm ([35ac0d8](https://github.com/richen604/hydenix/commit/35ac0d8b6c30526440c077fbc568e2692c680ed9))
+* more shell config, xdg ([e66c56a](https://github.com/richen604/hydenix/commit/e66c56a74f04dc6e7a56e911d6019322bbbbc888))
+* qt6ct ([bb74a7c](https://github.com/richen604/hydenix/commit/bb74a7c4d7a1a8e43beb33f1c868c42ee40469f1))
+* removed vscodium flags, added starship ([ebaf7f4](https://github.com/richen604/hydenix/commit/ebaf7f438598a15abc05b65920c621626f705641))
+* revised editors, packages ([0c4b369](https://github.com/richen604/hydenix/commit/0c4b369717b46670160923d1eaf7c9fd1269b400))
+* starship default ([7b9b361](https://github.com/richen604/hydenix/commit/7b9b361296092a26d18dae7ceeb87e627d56b9a2))
+* waybar update ([52f8199](https://github.com/richen604/hydenix/commit/52f8199c36a13a8d78a2eb597eabeed10a5c080c))
+* zsh plugins option, api docs ([4f2a549](https://github.com/richen604/hydenix/commit/4f2a549228dc01efec36eb68df718f12d24d3d3e))
+
+
+### BREAKING CHANGES
+
+* api updates
+
+# [3.1.0](https://github.com/richen604/hydenix/compare/v3.0.0...v3.1.0) (2025-05-19)
+
+
+### Bug Fixes
+
+* vscode default, used hm programs ([eaf0d81](https://github.com/richen604/hydenix/commit/eaf0d81090fd14ec09a8315b2fc8d1566dd99c55))
+* zsh option changes ([73646a6](https://github.com/richen604/hydenix/commit/73646a6e84cb460f387311aa98cda331730212df))
+
+
+### Features
+
+* add crimson-blue ([f2bc3fa](https://github.com/richen604/hydenix/commit/f2bc3fad5c9ca2691627d2cd33845342eab1a583))
+* add electra ([442b670](https://github.com/richen604/hydenix/commit/442b670cda19437dbb53e58c8afad87ccce59454))
+* add grukai ([2aa3080](https://github.com/richen604/hydenix/commit/2aa30803b103f7b4492aa676e03713196724d926))
+* added amethyst aura ([84fa67f](https://github.com/richen604/hydenix/commit/84fa67f4f227bd241462ca57522c0955585fb86a))
+* added code garden ([f869848](https://github.com/richen604/hydenix/commit/f8698483141e57d5ca46f2fe3a9100c1024bf8eb))
+* added nightbrew ([ac1b3ca](https://github.com/richen604/hydenix/commit/ac1b3caf4b99404221c383879fbca361281f092d))
+* added piece of mind and obsidian purple ([f5ee114](https://github.com/richen604/hydenix/commit/f5ee1148f40779379403063599f5fd590dcc1da6))
+
 # [3.0.0](https://github.com/richen604/hydenix/compare/v2.3.1...v3.0.0) (2025-04-07)
 
 

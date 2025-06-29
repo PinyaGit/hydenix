@@ -3,7 +3,7 @@
 
   inputs = {
     # Hydenix's nixpkgs
-    hydenix-nixpkgs.url = "github:nixos/nixpkgs/b3582c75c7f21ce0b429898980eddbbf05c68e55";
+    hydenix-nixpkgs.url = "github:nixos/nixpkgs/c539ae8d21e49776966d714f82fba33b1fca78bc";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -15,6 +15,11 @@
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "hydenix-nixpkgs";
+    };
+
+    hyde = {
+      url = "github:HyDE-Project/HyDE/cc76f032e090b84c367c11a4c1b326be76a9fa7e";
+      flake = false;
     };
   };
 
@@ -29,7 +34,7 @@
           inherit system;
         };
         lib = {
-          overlays = import ./hydenix/sources/overlay.nix;
+          overlays = import ./hydenix/sources/overlay.nix { inputs = hydenix-pre-inputs; };
           nixOsModules = import ./hydenix/modules/system;
           homeModules = import ./hydenix/modules/hm;
           iso = import ./lib/iso/default.nix;
@@ -58,6 +63,11 @@
 
       demoVmConfig = import ./lib/vms/demo-vm.nix {
         inherit hydenix-inputs;
+      };
+
+      hydevm = import ./lib/vms/hydevm/default.nix {
+        pkgs = hydenix-inputs.pkgs;
+        lib = hydenix-inputs.pkgs.lib;
       };
 
     in
@@ -109,6 +119,12 @@
 
         # Add the burn-iso script as a package
         burn-iso = isoConfig.burn-iso;
+
+        # Add hyde-update package
+        hyde-update = import ./lib/hyde-update { inherit hydenix-inputs; };
+
+        # Add hydevm packages
+        hydevm = hydevm.defaultPackage;
       };
 
       devShells.${system}.default = import ./lib/dev-shell.nix { inherit hydenix-inputs; };

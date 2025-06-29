@@ -21,12 +21,11 @@ in
   # TODO: review stateful files in hyde module
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      hydenix.wallbash-gtk
-      hydenix.wallbash-icons
+      hydenix.hyde
       Bibata-Modern-Ice
       Tela-circle-dracula
-      hydenix.hyde
-      kdePackages.kconfig # needed for toml_write in hyde
+      kdePackages.kconfig # TODO: not sure if this is still needed
+      wf-recorder # screen recorder for wlroots-based compositors such as sway
     ];
 
     fonts.fontconfig.enable = true;
@@ -34,9 +33,7 @@ in
     # fixes cava from not initializing on boot
     home.activation.createCavaConfig = lib.hm.dag.entryAfter [ "mutableGeneration" ] ''
       mkdir -p "$HOME/.config/cava"
-
       touch "$HOME/.config/cava/config"
-
       chmod 644 "$HOME/.config/cava/config"
     '';
 
@@ -45,6 +42,15 @@ in
       ".config/hyde/wallbash" = {
         source = "${pkgs.hydenix.hyde}/Configs/.config/hyde/wallbash";
         recursive = true;
+        force = true;
+        mutable = true;
+      };
+
+      ".config/systemd/user/hyde-config.service" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.config/systemd/user/hyde-config.service";
+      };
+      ".config/systemd/user/hyde-ipc.service" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.config/systemd/user/hyde-ipc.service";
       };
 
       ".local/bin/hyde-shell" = {
@@ -52,9 +58,22 @@ in
         executable = true;
       };
 
+      # TODO: requires nix-ld
+      ".local/bin/hydectl" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.local/bin/hydectl";
+        executable = true;
+      };
+
+      ".local/bin/hyde-ipc" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.local/bin/hyde-ipc";
+        executable = true;
+      };
+
       ".local/lib/hyde" = {
         source = "${pkgs.hydenix.hyde}/Configs/.local/lib/hyde";
         recursive = true;
+        force = true;
+        mutable = true;
         executable = true;
       };
 
@@ -74,6 +93,28 @@ in
         force = true;
         mutable = true;
       };
+      ".local/share/waybar/includes" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.local/share/waybar/includes";
+        recursive = true;
+      };
+      ".local/share/waybar/layouts" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.local/share/waybar/layouts";
+        recursive = true;
+      };
+      ".local/share/waybar/menus" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.local/share/waybar/menus";
+        recursive = true;
+      };
+      ".local/share/waybar/modules" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.local/share/waybar/modules";
+        recursive = true;
+      };
+      ".local/share/waybar/styles" = {
+        source = "${pkgs.hydenix.hyde}/Configs/.local/share/waybar/styles";
+        force = true;
+        mutable = true;
+        recursive = true;
+      };
       ".config/MangoHud/MangoHud.conf" = {
         source = "${pkgs.hydenix.hyde}/Configs/.config/MangoHud/MangoHud.conf";
       };
@@ -89,7 +130,7 @@ in
       };
 
       ".local/share/icons/Wallbash-Icon" = {
-        source = "${pkgs.hydenix.wallbash-icons}/Wallbash-Icon";
+        source = "${pkgs.hydenix.hyde}/share/icons/Wallbash-Icon";
         force = true;
         recursive = true;
         mutable = true;
@@ -106,13 +147,13 @@ in
         force = true;
         mutable = true;
       };
-      ".local/share/icons/default" = {
+      ".local/share/icons/default/index.theme" = {
         source = "${pkgs.hydenix.hyde}/Configs/.local/share/icons/default/index.theme";
         force = true;
         mutable = true;
       };
       ".local/share/themes/Wallbash-Gtk" = {
-        source = "${pkgs.hydenix.wallbash-gtk}/share/themes/Wallbash-Gtk";
+        source = "${pkgs.hydenix.hyde}/share/themes/Wallbash-Gtk";
         recursive = true;
         force = true;
         mutable = true;

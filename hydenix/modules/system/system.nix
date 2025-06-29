@@ -28,6 +28,7 @@ in
       envsubst # Environment variable substitution utility
       killall # Process termination utility
       wl-clipboard # Wayland clipboard utilities
+      wl-clip-persist # Keep Wayland clipboard even after programs close (avoids crashes)
       gnumake # Build automation tool
       git # distributed version control system
       fzf # command line fuzzy finder
@@ -63,6 +64,8 @@ in
       withUWSM = false;
     };
 
+    programs.nix-ld.enable = true;
+
     environment.pathsToLink = [
       "/share/icons"
       "/share/themes"
@@ -79,6 +82,12 @@ in
     hardware.bluetooth = {
       enable = true;
       powerOnBoot = true;
+      settings = {
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+          Experimental = true;
+        };
+      };
     };
 
     services = {
