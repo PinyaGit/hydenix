@@ -33,6 +33,7 @@
         default = "code"; # default text editor
       };
       fastfetch.enable = true; # fastfetch configuration
+      brave.enable = true; # enable brave browser module
       git = {
         enable = true; # enable git module
         name = null; # git user name eg "John Doe"

@@ -11,6 +11,7 @@
     ./dolphin.nix
     ./editors.nix
     ./fastfetch.nix
+    ./brave.nix
     ./gtk.nix
     ./git.nix
     ./hyde.nix
