@@ -33,7 +33,6 @@
         default = "code"; # default text editor
       };
       fastfetch.enable = true; # fastfetch configuration
-      firefox.enable = true; # enable firefox module
       git = {
         enable = true; # enable git module
         name = null; # git user name eg "John Doe"
